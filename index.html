@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0f172a">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="سواعد الغد">
     <title>منظومة سواعد الغد الحديثة - تسعير الحاويات وإدارة الفواتير</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -18,27 +15,6 @@
             #quotationPrintArea { display: block !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; }
         }
     </style>
-    <script>
-        const manifestObj = {
-            name: "منظومة سواعد الغد الحديثة للتسعير",
-            short_name: "سواعد الغد",
-            start_url: "./",
-            display: "standalone",
-            background_color: "#0f172a",
-            theme_color: "#f59e0b",
-            icons: [{
-                src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23f59e0b'/><text x='50' y='65' font-size='45' font-family='sans-serif' font-weight='bold' text-anchor='middle' fill='%230f172a'>SG</text></svg>",
-                sizes: "192x192",
-                type: "image/svg+xml"
-            }]
-        };
-        const manifestBlob = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
-        const manifestURL = URL.createObjectURL(manifestBlob);
-        const linkEl = document.createElement('link');
-        linkEl.rel = 'manifest';
-        linkEl.href = manifestURL;
-        document.head.appendChild(linkEl);
-    </script>
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen">
 
@@ -54,22 +30,12 @@
             </div>
             
             <div class="flex items-center gap-2 flex-wrap">
-                <button onclick="addNewShipmentTab()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-sm transition flex items-center gap-2 shadow cursor-pointer">
-                    <span>＋</span> شحنة جديدة
-                </button>
-                <button onclick="triggerAIUpload()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-lg text-sm transition cursor-pointer flex items-center gap-2 shadow">
-                    <span>🤖</span> إضافة فاتورة بصورة (Gemini AI)
-                </button>
+                <button onclick="addNewShipmentTab()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-sm transition cursor-pointer">＋ شحنة جديدة</button>
+                <button onclick="triggerAIUpload()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-lg text-sm transition cursor-pointer">🤖 إضافة فاتورة (AI)</button>
                 <input type="file" id="aiInvoiceInput" accept="image/*" class="hidden" onchange="handleAIInvoiceUpload(event)">
-                <button onclick="openCatalogModal()" class="bg-sky-700 hover:bg-sky-600 text-white font-bold px-3 py-2 rounded-lg text-sm transition cursor-pointer">
-                    📚 قاعدة البيانات
-                </button>
-                <button onclick="openSettings()" class="bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-lg text-sm transition cursor-pointer">
-                    ⚙️ الإعدادات
-                </button>
-                <button onclick="exportBackup()" class="bg-emerald-700 hover:bg-emerald-600 px-3 py-2 rounded-lg text-sm transition cursor-pointer">
-                    💾 حفظ نسخة
-                </button>
+                <button onclick="openCatalogModal()" class="bg-sky-700 hover:bg-sky-600 text-white font-bold px-3 py-2 rounded-lg text-sm transition cursor-pointer">📚 القاعدة</button>
+                <button onclick="openSettings()" class="bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-lg text-sm transition cursor-pointer">⚙️ الإعدادات</button>
+                <button onclick="exportBackup()" class="bg-emerald-700 hover:bg-emerald-600 px-3 py-2 rounded-lg text-sm transition cursor-pointer">💾 نسخة</button>
             </div>
         </div>
         <!-- تبويبات الشحنات -->
@@ -79,61 +45,20 @@
     <!-- شريط حالة الذكاء الاصطناعي -->
     <div id="aiLoadingBanner" class="hidden max-w-7xl mx-auto mt-4 px-4 no-print">
         <div class="bg-indigo-900/90 border border-indigo-500 text-indigo-100 px-4 py-3 rounded-xl flex items-center gap-3 shadow-lg">
-            <svg class="animate-spin h-5 w-5 text-indigo-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <span class="font-bold text-sm" id="aiLoadingText">جاري قراءة الفاتورة وتحليل الأصناف ومعامل الحيز بواسطة Gemini AI...</span>
+            <span class="font-bold text-sm" id="aiLoadingText">جاري قراءة الفاتورة وتحليل الأصناف بواسطة Gemini AI...</span>
         </div>
     </div>
 
     <!-- المحتوى الرئيسي -->
     <main class="max-w-7xl mx-auto p-4 md:p-6 space-y-6" id="mainAppContainer"></main>
 
-    <!-- نافذة إدارة وتحديث قاعدة البيانات -->
+    <!-- نافذة إدارة قاعدة البيانات -->
     <div id="catalogModal" class="fixed inset-0 bg-black/75 hidden flex items-center justify-center p-4 z-50 no-print">
         <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col p-6 space-y-4">
             <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-                <div>
-                    <h3 class="text-lg font-bold text-sky-400">إدارة وتحديث قاعدة بيانات الإطارات والبطاريات</h3>
-                    <p class="text-xs text-slate-400">يمكنك إضافة مقاسات جديدة أو تعديل الأسعار ومعامل الحيز الافتراضي وستُحفظ تلقائياً في جهازك.</p>
-                </div>
+                <h3 class="text-lg font-bold text-sky-400">قاعدة بيانات الإطارات والبطاريات</h3>
                 <button onclick="closeCatalogModal()" class="text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
             </div>
-            
-            <!-- نموذج إضافة صنف جديد للقاعدة -->
-            <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 grid grid-cols-2 sm:grid-cols-6 gap-2 items-end">
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">العلامة (Brand)</label>
-                    <input type="text" id="newCatBrand" placeholder="DEWOSTONE" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">المقاس (Size)</label>
-                    <input type="text" id="newCatSize" placeholder="205/55R16" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">النوع</label>
-                    <select id="newCatType" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white">
-                        <option value="PCR">PCR (سيارات)</option>
-                        <option value="LTR">LTR (نقل خفيف)</option>
-                        <option value="TBR">TBR (شاحنات)</option>
-                        <option value="BATTERY">BATTERY (بطارية)</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">معامل الحيز</label>
-                    <input type="number" step="0.5" id="newCatSpace" value="1" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-amber-400 font-bold">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">السعر الافتراضي ($)</label>
-                    <input type="number" step="0.1" id="newCatPrice" value="25" class="w-full bg-slate-800 border border-slate-600 rounded p-2 text-xs text-white">
-                </div>
-                <button onclick="addNewToMasterCatalog()" class="bg-sky-600 hover:bg-sky-500 text-white font-bold p-2 rounded text-xs transition h-[34px] cursor-pointer">
-                    ＋ حفظ بالقاعدة
-                </button>
-            </div>
-
-            <!-- جدول قاعدة البيانات -->
             <div class="overflow-y-auto flex-1 border border-slate-700 rounded-xl">
                 <table class="w-full text-right text-xs">
                     <thead class="bg-slate-900 text-slate-300 sticky top-0">
@@ -143,85 +68,43 @@
                             <th class="p-2.5">المقاس</th>
                             <th class="p-2.5">النوع</th>
                             <th class="p-2.5">معامل الحيز</th>
-                            <th class="p-2.5">سعر المصنع ($)</th>
-                            <th class="p-2.5 text-center">حذف</th>
+                            <th class="p-2.5">السعر ($)</th>
                         </tr>
                     </thead>
                     <tbody id="catalogTableBody" class="divide-y divide-slate-700"></tbody>
                 </table>
             </div>
-
-            <div class="flex justify-between items-center pt-2 border-t border-slate-700">
-                <button onclick="resetMasterCatalog()" class="text-xs text-rose-400 hover:underline cursor-pointer">استعادة القاعدة الافتراضية الأصلية</button>
+            <div class="flex justify-end pt-2 border-t border-slate-700">
                 <button onclick="closeCatalogModal()" class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg text-sm font-bold cursor-pointer">إغلاق</button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة الإعدادات والنسخ الاحتياطي -->
+    <!-- نافذة الإعدادات -->
     <div id="settingsModal" class="fixed inset-0 bg-black/75 hidden flex items-center justify-center p-4 z-50 no-print">
         <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 space-y-4">
             <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-                <h3 class="text-lg font-bold text-amber-400">إعدادات المنظومة ومفتاح الذكاء الاصطناعي</h3>
+                <h3 class="text-lg font-bold text-amber-400">إعدادات المنظومة</h3>
                 <button onclick="closeSettings()" class="text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
             </div>
             <div class="space-y-2">
                 <label class="block text-sm font-bold text-slate-200">مفتاح Gemini API Key:</label>
-                <input type="password" id="apiKeyInput" placeholder="AIzaSy..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-100 focus:border-amber-500 outline-none dir-ltr" dir="ltr">
-                <p class="text-xs text-slate-400">يُحفظ المفتاح محلياً في متصفحك فقط لتشغيل زر قراءة الفواتير بالذكاء الاصطناعي.</p>
-            </div>
-            <div class="border-t border-slate-700 pt-3 space-y-2">
-                <label class="block text-sm font-bold text-slate-200">استعادة البيانات من ملف نسخة احتياطية (JSON):</label>
-                <input type="file" id="restoreFileInput" accept=".json" onchange="restoreBackup(event)" class="w-full text-sm text-slate-400 file:ml-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-slate-700 file:text-slate-200 hover:file:bg-slate-600 cursor-pointer">
+                <input type="password" id="apiKeyInput" placeholder="AIzaSy..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-slate-100 outline-none dir-ltr" dir="ltr">
             </div>
             <div class="flex justify-end gap-3 pt-3 border-t border-slate-700">
-                <button onclick="closeSettings()" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm cursor-pointer">إلغاء</button>
-                <button onclick="saveSettings()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2 rounded-lg text-sm cursor-pointer">حفظ الإعدادات</button>
+                <button onclick="closeSettings()" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg text-sm cursor-pointer">إغلاق</button>
+                <button onclick="saveSettings()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2 rounded-lg text-sm cursor-pointer">حفظ</button>
             </div>
         </div>
     </div>
 
     <script>
         const defaultCatalog = [
-            { code: "V33DTP0001CX", brand: "DEWOSTONE", type: "PCR", size: "145/70R12", pattern: "WR079", spaceFactor: 1, defaultQty: 2950, price: 12.5 },
-            { code: "V33DTP0092CX", brand: "DEWOSTONE", type: "PCR", size: "145/80R12", pattern: "WR079", spaceFactor: 1, defaultQty: 2800, price: 13.0 },
-            { code: "V33DTP0002CY", brand: "DEWOSTONE", type: "PCR", size: "155/70R12", pattern: "WR080", spaceFactor: 1, defaultQty: 2600, price: 13.5 },
-            { code: "V33DTP0093CY", brand: "DEWOSTONE", type: "PCR", size: "165/70R12", pattern: "WR080", spaceFactor: 1, defaultQty: 2360, price: 14.5 },
-            { code: "V33DTP0094CX", brand: "DEWOSTONE", type: "PCR", size: "175/70R12", pattern: "WR079", spaceFactor: 1, defaultQty: 2200, price: 15.5 },
-            { code: "V33DTP0015CY", brand: "DEWOSTONE", type: "PCR", size: "175/70R13", pattern: "WR080", spaceFactor: 1, defaultQty: 1950, price: 16.0 },
-            { code: "V33DTP0022CY", brand: "DEWOSTONE", type: "PCR", size: "185/70R14", pattern: "WR080", spaceFactor: 1, defaultQty: 1650, price: 19.0 },
-            { code: "V33DTP0035CY", brand: "DEWOSTONE", type: "PCR", size: "195/65R15", pattern: "WR080", spaceFactor: 1, defaultQty: 1450, price: 22.0 },
-            { code: "V33DTP0048CY", brand: "DEWOSTONE", type: "PCR", size: "205/55R16", pattern: "WR080", spaceFactor: 1, defaultQty: 1350, price: 24.5 },
-            { code: "V33DTP0060CY", brand: "DEWOSTONE", type: "PCR", size: "215/60R16", pattern: "WR080", spaceFactor: 1, defaultQty: 1200, price: 27.0 },
-            { code: "V33DTP0075CY", brand: "DEWOSTONE", type: "PCR", size: "225/65R17", pattern: "WR080", spaceFactor: 1.2, defaultQty: 1000, price: 33.0 },
-            { code: "V08FRP0005CD", brand: "FULLRIDE", type: "PCR", size: "165/65R13", pattern: "Vortex", spaceFactor: 1, defaultQty: 2030, price: 14.0 },
-            { code: "V08FRP0009CD", brand: "FULLRIDE", type: "PCR", size: "175/70R13", pattern: "Vortex", spaceFactor: 1, defaultQty: 1930, price: 15.0 },
-            { code: "V08FRP0014CD", brand: "FULLRIDE", type: "PCR", size: "175/65R14", pattern: "Vortex", spaceFactor: 1, defaultQty: 1850, price: 16.5 },
-            { code: "V08FRP0017CD", brand: "FULLRIDE", type: "PCR", size: "185/65R14", pattern: "Vortex", spaceFactor: 1, defaultQty: 1600, price: 18.0 },
-            { code: "V08FRP0025CD", brand: "FULLRIDE", type: "PCR", size: "195/65R15", pattern: "Vortex", spaceFactor: 1, defaultQty: 1420, price: 21.5 },
-            { code: "V08FRP0033CD", brand: "FULLRIDE", type: "PCR", size: "205/55R16", pattern: "Vortex", spaceFactor: 1, defaultQty: 1320, price: 24.0 },
-            { code: "V02LLP0023DQ", brand: "LINGLONG", type: "PCR", size: "185/60R15", pattern: "COMFORT MASTER", spaceFactor: 1, defaultQty: 1520, price: 21.0 },
-            { code: "V02LLP0174DR", brand: "LINGLONG", type: "PCR", size: "185/80R14", pattern: "CROSSWIND", spaceFactor: 1, defaultQty: 1500, price: 22.5 },
-            { code: "V01LLP0019ET", brand: "LINGLONG", type: "LTR", size: "185R14C", pattern: "RADIAL R701", spaceFactor: 1.5, defaultQty: 1200, price: 28.0 },
-            { code: "V01LLP0022ET", brand: "LINGLONG", type: "LTR", size: "195R14C", pattern: "RADIAL R701", spaceFactor: 1.5, defaultQty: 1100, price: 31.0 },
-            { code: "V07LHL0008JK", brand: "LUHE", type: "LTR", size: "6.50R16", pattern: "LRP128", spaceFactor: 2, defaultQty: 930, price: 42.0 },
-            { code: "V07LHL0009JK", brand: "LUHE", type: "LTR", size: "7.00R16", pattern: "LRP128", spaceFactor: 2, defaultQty: 850, price: 48.0 },
-            { code: "V07LHL0010JK", brand: "LUHE", type: "LTR", size: "7.50R16", pattern: "LRP128", spaceFactor: 2, defaultQty: 730, price: 55.0 },
-            { code: "V35ATT0067KI", brand: "AOTELI", type: "TBR", size: "6.50R16-12PR", pattern: "A168", spaceFactor: 2, defaultQty: 720, price: 45.0 },
-            { code: "V35ATT0068KI", brand: "AOTELI", type: "TBR", size: "7.00R16-14PR", pattern: "A168", spaceFactor: 2, defaultQty: 620, price: 52.0 },
-            { code: "V35ATT0069KI", brand: "AOTELI", type: "TBR", size: "7.50R16-16PR", pattern: "A168", spaceFactor: 2, defaultQty: 620, price: 60.0 },
-            { code: "V35ATT0080KI", brand: "AOTELI", type: "TBR", size: "12.00R20-18PR", pattern: "A168", spaceFactor: 2.5, defaultQty: 260, price: 145.0 },
-            { code: "V35ATT0085KI", brand: "AOTELI", type: "TBR", size: "315/80R22.5-20PR", pattern: "A168", spaceFactor: 2.5, defaultQty: 280, price: 155.0 },
-            { code: "CRY-195-65R15", brand: "CRYSTAL", type: "PCR", size: "195/65R15", pattern: "Standard", spaceFactor: 1, defaultQty: 1450, price: 20.5 },
-            { code: "PGT-205-55R16", brand: "POWER GT", type: "PCR", size: "205/55R16", pattern: "Sport", spaceFactor: 1, defaultQty: 1350, price: 23.0 },
-            { code: "TFX-265-70R16", brand: "TERAFLEX", type: "PCR", size: "265/70R16 A/T", pattern: "All Terrain", spaceFactor: 1.5, defaultQty: 800, price: 46.0 },
-            { code: "DBK-1200R20", brand: "DOUBLEKING", type: "TBR", size: "12.00R20", pattern: "Heavy", spaceFactor: 2.5, defaultQty: 250, price: 140.0 },
-            { code: "ZEX-215-55R17", brand: "ZEXTOUR", type: "PCR", size: "215/55R17", pattern: "Comfort", spaceFactor: 1, defaultQty: 1200, price: 26.5 },
-            { code: "BAT-PHL-55AH", brand: "PHLORIDE", type: "BATTERY", size: "55Ah", pattern: "MF", spaceFactor: 1, defaultQty: 800, price: 28.0 },
-            { code: "BAT-PHL-70AH", brand: "PHLORIDE", type: "BATTERY", size: "70Ah", pattern: "MF", spaceFactor: 1, defaultQty: 650, price: 34.0 },
-            { code: "BAT-PHL-100AH", brand: "PHLORIDE", type: "BATTERY", size: "100Ah", pattern: "MF", spaceFactor: 1, defaultQty: 500, price: 45.0 },
-            { code: "BAT-PHL-150AH", brand: "PHLORIDE", type: "BATTERY", size: "150Ah", pattern: "Heavy Duty", spaceFactor: 2, defaultQty: 300, price: 72.0 },
-            { code: "BAT-PHL-200AH", brand: "PHLORIDE", type: "BATTERY", size: "200Ah", pattern: "Heavy Duty", spaceFactor: 2, defaultQty: 240, price: 92.0 }
+            { code: "V33DTP0001CX", brand: "DEWOSTONE", type: "PCR", size: "145/70R12", spaceFactor: 1, defaultQty: 2950, price: 12.5 },
+            { code: "V33DTP0035CY", brand: "DEWOSTONE", type: "PCR", size: "195/65R15", spaceFactor: 1, defaultQty: 1450, price: 22.0 },
+            { code: "V33DTP0048CY", brand: "DEWOSTONE", type: "PCR", size: "205/55R16", spaceFactor: 1, defaultQty: 1350, price: 24.5 },
+            { code: "V35ATT0068KI", brand: "AOTELI", type: "TBR", size: "7.00R16-14PR", spaceFactor: 2, defaultQty: 620, price: 52.0 },
+            { code: "BAT-PHL-150AH", brand: "PHLORIDE", type: "BATTERY", size: "150Ah", spaceFactor: 2, defaultQty: 300, price: 72.0 }
         ];
 
         let appData = {
@@ -240,28 +123,24 @@
                     profitMargin: 15,
                     items: [
                         { id: 1, code: "V33DTP0001CX", brand: "DEWOSTONE", size: "145/70R12", type: "PCR", qty: 2950, fobUSD: 12.5, spaceFactor: 1 },
-                        { id: 2, code: "BAT-PHL-150AH", brand: "PHLORIDE", size: "150Ah", type: "BATTERY", qty: 300, fobUSD: 72.0, spaceFactor: 2 },
-                        { id: 3, code: "V35ATT0068KI", brand: "AOTELI", size: "7.00R16-14PR", type: "TBR", qty: 620, fobUSD: 52.0, spaceFactor: 2 }
+                        { id: 2, code: "BAT-PHL-150AH", brand: "PHLORIDE", size: "150Ah", type: "BATTERY", qty: 300, fobUSD: 72.0, spaceFactor: 2 }
                     ]
                 }
             ]
         };
 
         function loadStorage() {
-            const saved = localStorage.getItem("sawaed_costing_app_v2");
+            const saved = localStorage.getItem("sawaed_app_v3");
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
-                    appData = { ...appData, ...parsed };
-                    if (!appData.catalog || appData.catalog.length === 0) {
-                        appData.catalog = JSON.parse(JSON.stringify(defaultCatalog));
-                    }
+                    if (parsed && parsed.shipments) appData = parsed;
                 } catch (e) { console.error(e); }
             }
         }
 
         function saveStorage() {
-            localStorage.setItem("sawaed_costing_app_v2", JSON.stringify(appData));
+            localStorage.setItem("sawaed_app_v3", JSON.stringify(appData));
         }
 
         function initApp() {
@@ -272,4 +151,158 @@
 
         function renderTabs() {
             const container = document.getElementById("shipmentTabsContainer");
-            container.innerHTML
+            if (!container) return;
+            container.innerHTML = appData.shipments.map(s => `
+                <button onclick="switchShipment('${s.id}')" class="px-4 py-2 rounded-lg text-sm font-bold transition whitespace-nowrap cursor-pointer ${s.id === appData.activeShipmentId ? 'bg-amber-500 text-slate-950 shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                    📁 ${s.name}
+                </button>
+            `).join('');
+        }
+
+        function switchShipment(id) {
+            appData.activeShipmentId = id;
+            saveStorage();
+            renderTabs();
+            renderActiveShipment();
+        }
+
+        function addNewShipmentTab() {
+            const newId = "ship_" + Date.now();
+            const newName = "شحنة " + (appData.shipments.length + 1);
+            appData.shipments.push({
+                id: newId,
+                name: newName,
+                exchangeRate: 4.85,
+                customsUSD: 1000,
+                seaFreightUSD: 4000,
+                localTransportLYD: 1000,
+                otherExpensesLYD: 300,
+                profitMargin: 15,
+                items: [
+                    { id: Date.now(), code: "V33DTP0001CX", brand: "DEWOSTONE", size: "145/70R12", type: "PCR", qty: 2000, fobUSD: 12.5, spaceFactor: 1 }
+                ]
+            });
+            saveStorage();
+            switchShipment(newId);
+        }
+
+        function getActiveShipment() {
+            return appData.shipments.find(s => s.id === appData.activeShipmentId) || appData.shipments[0];
+        }
+
+        function calculateShipment(s) {
+            let totalSpaceUnits = 0;
+            s.items.forEach(item => {
+                totalSpaceUnits += (Number(item.qty) || 0) * (Number(item.spaceFactor) || 1);
+            });
+
+            const totalSeaFreightLYD = (Number(s.seaFreightUSD) || 0) * (Number(s.exchangeRate) || 0);
+            const totalCustomsLYD = (Number(s.customsUSD) || 0) * (Number(s.exchangeRate) || 0);
+            const totalGeneralExpensesLYD = totalSeaFreightLYD + totalCustomsLYD + (Number(s.localTransportLYD) || 0) + (Number(s.otherExpensesLYD) || 0);
+
+            const itemsCalculated = s.items.map(item => {
+                const qty = Number(item.qty) || 0;
+                const fobUSD = Number(item.fobUSD) || 0;
+                const spaceFactor = Number(item.spaceFactor) || 1;
+                
+                const fobLYD = fobUSD * (Number(s.exchangeRate) || 0);
+                const itemTotalSpace = qty * spaceFactor;
+                const shareOfExpensesLYD = totalSpaceUnits > 0 ? (itemTotalSpace / totalSpaceUnits) * totalGeneralExpensesLYD : 0;
+                const totalCostLYD = (qty * fobLYD) + shareOfExpensesLYD;
+                const unitCostLYD = qty > 0 ? totalCostLYD / qty : 0;
+                const unitCostUSD = s.exchangeRate > 0 ? unitCostLYD / s.exchangeRate : 0;
+                const sellingPriceLYD = unitCostLYD * (1 + ((Number(s.profitMargin) || 0) / 100));
+                const totalSellingLYD = sellingPriceLYD * qty;
+
+                return { ...item, fobLYD, unitCostUSD, unitCostLYD, sellingPriceLYD, totalSellingLYD };
+            });
+
+            return { totalSpaceUnits, totalGeneralExpensesLYD, itemsCalculated };
+        }
+
+        function renderActiveShipment() {
+            const s = getActiveShipment();
+            const container = document.getElementById("mainAppContainer");
+            if (!container) return;
+            const { totalSpaceUnits, totalGeneralExpensesLYD, itemsCalculated } = calculateShipment(s);
+
+            let catalogOpts = "";
+            if (appData.catalog && appData.catalog.length > 0) {
+                catalogOpts = appData.catalog.map(cat => `<option value="${cat.code}">${cat.brand} - ${cat.size} (${cat.type})</option>`).join('');
+            }
+
+            container.innerHTML = `
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 shadow-lg no-print space-y-4">
+                    <div class="flex flex-wrap justify-between items-center gap-4 border-b border-slate-700 pb-3">
+                        <div>
+                            <input type="text" value="${s.name}" onchange="updateShipmentName(this.value)" class="bg-slate-900 border border-slate-700 font-bold text-lg px-3 py-1 rounded-lg text-amber-400 outline-none">
+                            <p class="text-xs text-slate-400 mt-1">حيز الحاوية: <span class="text-white font-bold">${totalSpaceUnits.toLocaleString()}</span> | المصاريف الموزعة: <span class="text-amber-400 font-bold">${totalGeneralExpensesLYD.toLocaleString()} د.ل</span></p>
+                        </div>
+                        <div class="flex gap-2 flex-wrap">
+                            <button onclick="printQuotation()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg text-sm font-bold shadow cursor-pointer">🖨️ طباعة</button>
+                            <button onclick="shareWhatsApp()" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded-lg text-sm font-bold shadow cursor-pointer">💬 واتساب</button>
+                            <button onclick="deleteCurrentShipment()" class="bg-rose-900/60 hover:bg-rose-800 text-rose-200 px-3 py-2 rounded-lg text-sm cursor-pointer">حذف</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">سعر الصرف</label>
+                            <input type="number" step="0.01" value="${s.exchangeRate}" onchange="updateShipmentParam('exchangeRate', this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm font-bold text-amber-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">الشحن ($)</label>
+                            <input type="number" value="${s.seaFreightUSD}" onchange="updateShipmentParam('seaFreightUSD', this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">الجمارك ($)</label>
+                            <input type="number" value="${s.customsUSD}" onchange="updateShipmentParam('customsUSD', this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">النقل (د.ل)</label>
+                            <input type="number" value="${s.localTransportLYD}" onchange="updateShipmentParam('localTransportLYD', this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">مصاريف أخرى</label>
+                            <input type="number" value="${s.otherExpensesLYD}" onchange="updateShipmentParam('otherExpensesLYD', this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1">الربح (%)</label>
+                            <input type="number" value="${s.profitMargin}" onchange="updateShipmentParam('profitMargin', this.value)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm font-bold text-emerald-400">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-700">
+                        <select id="catalogSelect" class="bg-slate-900 border border-slate-700 text-sm rounded-lg p-2 text-slate-200 outline-none flex-1 max-w-md">
+                            ${catalogOpts}
+                        </select>
+                        <button onclick="addItemFromCatalog()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2 rounded-lg text-sm cursor-pointer">＋ إضافة صنف</button>
+                        <button onclick="addCustomItem()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg text-sm cursor-pointer">＋ مخصص</button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-lg overflow-hidden no-print">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right border-collapse">
+                            <thead>
+                                <tr class="bg-slate-900/80 text-slate-300 text-xs border-b border-slate-700">
+                                    <th class="p-3">العلامة</th>
+                                    <th class="p-3">المقاس</th>
+                                    <th class="p-3">النوع</th>
+                                    <th class="p-3">الكمية</th>
+                                    <th class="p-3">حيز</th>
+                                    <th class="p-3">المصنع ($)</th>
+                                    <th class="p-3 text-amber-400">التكلفة (د.ل)</th>
+                                    <th class="p-3 text-emerald-400">البيع (د.ل)</th>
+                                    <th class="p-3 text-center">إجراء</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-700 text-sm">
+                                ${itemsCalculated.map((item, index) => `
+                                    <tr class="hover:bg-slate-750 transition">
+                                        <td class="p-3"><input type="text" value="${item.brand}" onchange="updateItemField(${index}, 'brand', this.value)" class="w-24 bg-slate-900 border border-slate-700 rounded p-1 font-bold text-white"></td>
+                                        <td class="p-3"><input type="text" value="${item.size}" onchange="updateItemField(${index}, 'size', this.value)" class="w-28 bg-slate-900 border border-slate-700 rounded p-1 text-slate-200"></td>
+                                        <td class="p-3 text-xs"><span class="bg-slate-900 px-2 py-1 rounded">${item.type || 'PCR'}</span></td>
+                                        <td class="p-3"><input type="number" value="${item.qty}" onchange="updateItemField(${index}, 'qty', this.value)" class="w-16 bg-slate-900 border border-slate-700 rounded p-1 text-center font-bold"></td>
+                                        <td class="p-3"><input type="number" step="0.5" value="${item.spaceFactor || 1}" onchange="updateItemField(${index}, 'spaceFactor', this.value)" class="w-14 bg-slate-900 border border-slate-700 rounded p-1 text-center text-amber-300 font-bold"></td>
+                                        <td class="p-3"><input type="number" step="0.01" value="${item.fobUSD}" onchange="updateItemField(${index}, 'fobUSD', this.value)" class="w-20 bg-slate-900 border border-slate-700 rounded p-1 tex
